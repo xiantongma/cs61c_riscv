@@ -1,0 +1,79 @@
+iverilog -g2005 -I src/core   -f sve.f -g2005
+makefile +2   recipe for target 'iverilog' failed
+./src/core/riscv.v +31   error: Net ``IfId_Inst'' has already been declared.
+./src/core/riscv.v +32   error: Net ``Id_PcWrite'' has already been declared.
+./src/core/riscv.v +14   error: port ``Id_PCWrite'' is not a port of instFetch.
+./src/core/riscv.v +14   error: port ``Flush'' is not a port of instFetch.
+./src/core/riscv.v +14   error: port ``IfId_pc'' is not a port of instFetch.
+./src/core/riscv.v +51   error: port ``IdEx_MemtoReg'' is not a port of id.
+./src/core/riscv.v +51   error: port ``MemWb_RegWData'' is not a port of id.
+./src/core/id.v +44   warning: Port 2 (IdEx_RegisterRd) of hazardDetectionUnit expects 5 bits, got 1.
+./src/core/id.v +44          : Padding 4 high bits of the port.
+./src/core/id.v +44   warning: Port 3 (IfId_RegisterRs1) of hazardDetectionUnit expects 5 bits, got 1.
+./src/core/id.v +44          : Padding 4 high bits of the port.
+./src/core/id.v +44   warning: Port 4 (IfId_RegisterRs2) of hazardDetectionUnit expects 5 bits, got 1.
+./src/core/id.v +44          : Padding 4 high bits of the port.
+./src/core/id.v +53   error: port ``inst'' is not a port of id_decode.
+./src/core/id.v +53   error: port ``AluSrc'' is not a port of id_decode.
+./src/core/id.v +53   error: port ``AluOP'' is not a port of id_decode.
+./src/core/id.v +53   error: port ``MemtoReg'' is not a port of id_decode.
+./src/core/id.v +75   warning: Port 3 (addra) of regfiles expects 5 bits, got 1.
+./src/core/id.v +75          : Padding 4 high bits of the port.
+./src/core/id.v +75   warning: Port 4 (addrb) of regfiles expects 5 bits, got 1.
+./src/core/id.v +75          : Padding 4 high bits of the port.
+./src/core/id.v +75   warning: Port 6 (wData) of regfiles expects 32 bits, got 1.
+./src/core/id.v +75          : Padding 31 high bits of the port.
+./src/core/id.v +88   error: port ``Imm'' is not a port of ImmGen.
+./src/core/id.v +88   warning: Port 1 (instFormat) of ImmGen expects 3 bits, got 4.
+./src/core/id.v +88          : Pruning 1 high bits of the expression.
+./src/core/id.v +88   warning: Port 2 (inst) of ImmGen expects 32 bits, got 1.
+./src/core/id.v +88          : Padding 31 high bits of the port.
+./src/core/id.v +95   error: Could not find variable ``IdEx_PCSrc'' in ``tb.riscv.id''
+./src/core/id.v +102   error: Could not find variable ``IdEx_MemtoReg'' in ``tb.riscv.id''
+./src/core/id.v +106   error: Could not find variable ``IdEx_PCSrc'' in ``tb.riscv.id''
+./src/core/id.v +109   error: Unable to bind wire/reg/memory `Ex_Id_flush' in `tb.riscv.id'
+./src/core/id.v +109   error: Unable to elaborate condition expression.
+./src/core/id.v +120   error: Could not find variable ``IdEx_MemtoReg'' in ``tb.riscv.id''
+./src/core/id.v +121   error: Unable to bind wire/reg/memory `Ex_Id_flush' in `tb.riscv.id'
+./src/core/id.v +121   error: Unable to elaborate condition expression.
+./src/core/id.v +131   error: Could not find variable ``IdEx_RegDataA'' in ``tb.riscv.id''
+./src/core/id.v +132   error: Could not find variable ``IdEx_RegDataB'' in ``tb.riscv.id''
+./src/core/id.v +135   error: Could not find variable ``IdEx_RegDataA'' in ``tb.riscv.id''
+./src/core/id.v +136   error: Could not find variable ``IdEx_RegDataB'' in ``tb.riscv.id''
+./src/core/riscv.v +51   warning: Port 10 (IdEx_AluOP) of id expects 4 bits, got 1.
+./src/core/riscv.v +51          : Padding 3 high bits of the port.
+./src/core/exe.v +60   error: port ``ExMem_RegRd'' is not a port of forward_unit.
+./src/core/exe.v +60   error: port ``MemWb_RegRd'' is not a port of forward_unit.
+./src/core/exe.v +60   error: port ``IdEx_RegRs1'' is not a port of forward_unit.
+./src/core/exe.v +60   error: port ``IdEx_RegRs2'' is not a port of forward_unit.
+./src/core/exe.v +71   error: Unable to bind wire/reg/memory `IdEx_Pc' in `tb.riscv.exe'
+./src/core/exe.v +71   error: Unable to elaborate r-value: (IdEx_Pc)+('sd4)
+./src/core/exe.v +32   error: Unable to bind wire/reg/memory `Wb_RegWdata' in `tb.riscv.exe'
+./src/core/exe.v +41   error: Unable to bind wire/reg/memory `Wb_RegWdata' in `tb.riscv.exe'
+./src/core/riscv.v +87   warning: Port 7 (IdEx_RegRd) of exe expects 5 bits, got 1.
+./src/core/riscv.v +87          : Padding 4 high bits of the port.
+./src/core/riscv.v +87   warning: Port 8 (IdEx_RegRs1) of exe expects 5 bits, got 1.
+./src/core/riscv.v +87          : Padding 4 high bits of the port.
+./src/core/riscv.v +87   warning: Port 9 (IdEx_RegRs2) of exe expects 5 bits, got 1.
+./src/core/riscv.v +87          : Padding 4 high bits of the port.
+./src/core/riscv.v +87   warning: Port 10 (IdEx_RegRs1Data) of exe expects 32 bits, got 1.
+./src/core/riscv.v +87          : Padding 31 high bits of the port.
+./src/core/riscv.v +87   warning: Port 11 (IdEx_RegRs2Data) of exe expects 32 bits, got 1.
+./src/core/riscv.v +87          : Padding 31 high bits of the port.
+./src/core/riscv.v +87   warning: Port 16 (ExMem_MemToReg) of exe expects 1 bits, got 2.
+./src/core/riscv.v +87          : Padding 1 high bits of the expression.
+./src/core/riscv.v +123   error: port ``ExMem_AluResult'' is not a port of dmem.
+./src/core/riscv.v +123   error: port ``ExMem_AluB_Pc4'' is not a port of dmem.
+./src/core/riscv.v +123   error: port ``MemWb_AluB_Pc4'' is not a port of dmem.
+./src/core/riscv.v +123   error: port ``MemWb_RegWData'' is not a port of dmem.
+./src/core/dmem.v +16   warning: Port 3 (addr) of dram expects 32 bits, got 1.
+./src/core/dmem.v +16          : Padding 31 high bits of the port.
+./src/core/riscv.v +123   warning: Port 8 (MemWb_MemToReg) of dmem expects 1 bits, got 2.
+./src/core/riscv.v +123          : Padding 1 high bits of the expression.
+./src/core/riscv.v +140   error: port ``MemWb_AluB_Pc4'' is not a port of wb.
+./src/core/riscv.v +140   warning: Port 3 (MemWb_MemRData) of wb expects 32 bits, got 1.
+./src/core/riscv.v +140          : Padding 31 high bits of the port.
+37 error(s) during elaboration.
+makefile +2   recipe for target 'iverilog' failed
+make + *** [iverilog] Error 37
+

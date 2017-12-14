@@ -1,0 +1,16 @@
++incdir+./src/core
+./src/core/ImmGen.v
+./src/core/wb.v
+./src/core/hazardDetectionUnit.v
+./src/core/exe.v
+./src/core/riscv.v
+./src/core/forward_unit.v
+./src/core/dmem.v
+./src/core/dram.v
+./src/core/regfiles.v
+./src/core/imem.v
+./src/core/alu.v
+./src/core/id.v
+./src/core/id_decode.v
+./src/core/instFetch.v
+./src/tb.sv
