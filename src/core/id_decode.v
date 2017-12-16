@@ -1,29 +1,30 @@
 module id_decode(
-	input      [31:0]   Inst      ,
-    output wire [4:0]   Rd        ,
-    output wire [4:0]   Rs1       ,
-    output wire [4:0]   Rs2       ,
-    output reg 		    InstUndef ,
-    output reg          RegRs1Read,
-    output reg          RegRs2Read,
-    output reg 		    PcSrc     ,
-    output reg 		    AluSrc    ,
-    output reg [3:0]    AluOp     ,
+	input      [31:0]   Inst      , //instruction
+    output wire [4:0]   Rd        , //destination address of register file
+    output wire [4:0]   Rs1       , //source address 1 of register file
+    output wire [4:0]   Rs2       , //source address 2 of register file
+    output reg 		    InstUndef , //the instruction is not defined
+    output reg          RegRs1Read, //read enable of source address 1 of register file
+    output reg          RegRs2Read, //read enable of source address 2 of register file
+    output reg 		    PcSrc     , //PC source selection
+    output reg 		    AluSrc    , //ALU input B port source selection
+    output reg [3:0]    AluOp     , //ALU operation
     output reg 		    Branch    ,
     output reg          AluB_Pc4_Sel,
-    output reg 		    MemRead   ,
-    output reg 		    MemWrite  ,
-    output reg 		    MemToReg  ,
-    output reg 		    RegWrite  ,
-    output reg [2:0]    InstFormat 
+    output reg 		    MemRead   , //data memory read enable
+    output reg 		    MemWrite  , //data memory write enable
+    output reg 		    MemToReg  , //the source of data to destination register of register file
+                                    //0: the result of ALU or PC +4
+                                    //1: read data from data memory
+    output reg 		    RegWrite  , //write enable of register file
+    output reg [2:0]    InstFormat  //instruction format type
 );
     wire [6:0] OpCode  = Inst[ 6: 0];
-    assign 		Rd      = Inst[11: 7];
+    assign 		Rd     = Inst[11: 7];
     wire [2:0] Funct3  = Inst[14:12];
-    assign 		Rs1     = Inst[19:15];
-    assign		 Rs2     = Inst[24:20];
+    assign 		Rs1    = Inst[19:15];
+    assign		 Rs2   = Inst[24:20];
     wire [6:0] Funct7  = Inst[31:25];
-
 
     `include "riscv_def.v" 
     //The Instructions

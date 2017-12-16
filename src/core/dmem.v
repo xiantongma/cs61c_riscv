@@ -1,17 +1,20 @@
+//data memory top block
 module dmem(
     input             clk             ,
     input             rstb            ,
-    input             ExMem_MemToReg  ,
-    input     [31:0]  ExMem_AluResult ,
-    input     [31:0]  ExMem_AluB_Pc4   ,
-    input     [4:0]   ExMem_RegRd     ,
-    input             ExMem_RegWrite  ,
-    output reg        MemWb_MemToReg  ,
+    input     [31:0]  ExMem_AluResult , //the result of ALU
+    input     [31:0]  ExMem_AluB_Pc4  ,
+    input             ExMem_MemToReg  , //register file write data source selection
+    input     [4:0]   ExMem_RegRd     , //register file address
+    input             ExMem_RegWrite  , //register file write enable
+    output reg [31:0] MemWb_MemRData  , //read data from data memory
     output reg [31:0] MemWb_AluB_Pc4  ,
-    output reg [31:0] MemWb_MemRData  ,
-    output reg [4:0]  MemWb_RegRd     ,
-    output reg        MemWb_RegWrite  
+    output reg        MemWb_MemToReg  , //register file write data source selection
+    output reg [4:0]  MemWb_RegRd     , //register file address
+    output reg        MemWb_RegWrite   //register file write enable
     );
+
+   //data memory
     wire [31:0] MemRData;
      dram dram(
         /*i*/ .clk  (clk            ),
@@ -23,6 +26,7 @@ module dmem(
         /*o*/ .rdata(MemRData      ) 
     );   
 
+    //MEM/WB pipleline registers
     always @(posedge clk or negedge rstb)
         if (!rstb) begin
             MemWb_MemToReg   <= 0;

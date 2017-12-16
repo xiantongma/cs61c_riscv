@@ -1,31 +1,35 @@
 module exe(
     input             clk              ,
     input             rstb             ,
-    input   [31:0]    IdEx_Pc          ,
-    input             IdEx_AluSrc      ,
-    input   [3:0]     IdEx_AluOp       ,
-    input   [31:0]    IdEx_Imm         ,
-    input   		  IdEx_RegWrite    ,
-    input   [4:0]     IdEx_RegRd       ,
+    //from ID/EXE pipleline register
+    input   [31:0]    IdEx_Pc          , //PC
+    input             IdEx_AluSrc      , //ALU input B port selection
+    input   [3:0]     IdEx_AluOp       , //ALU operation
+    input   [31:0]    IdEx_Imm         , //signed expand immediate
     input   [4:0]     IdEx_RegRs1      ,
     input   [4:0]     IdEx_RegRs2      ,
-    input   [31:0]    IdEx_RegDataA  ,
-    input   [31:0]    IdEx_RegDataB  ,
+    input   [31:0]    IdEx_RegDataA    ,
+    input   [31:0]    IdEx_RegDataB    ,
     input             IdEx_AluB_Pc4_Sel,
-    input             IdEx_MemToReg    ,
-    input             IdEx_MemRead     ,
-    input             IdEx_MemWrite    ,
-    output reg        ExMem_MemToReg   ,
+    input             IdEx_MemRead     , //data memory read enable
+    input             IdEx_MemWrite    , //data memory write enable
+    input             IdEx_MemToReg    , //register file write data source selection
+    input   		  IdEx_RegWrite    , //register file write enable
+    input   [4:0]     IdEx_RegRd       , //register file address
+    //to EXE/MEM pipleline register
     output reg [31:0] ExMem_AluResult  ,
-    output reg        ExMem_MemRead    , 
-    output reg        ExMem_MemWrite   , 
     output reg [31:0] ExMem_AluB_Pc4   ,
-    output reg [4:0]  ExMem_RegRd      ,
-    output reg        ExMem_RegWrite   ,
-    input      [4:0]  MemWb_RegRd      ,
-    input             MemWb_RegWrite   ,
-    input      [31:0] Wb_RegWData     //foward
+    output reg        ExMem_MemRead    , //memory read
+    output reg        ExMem_MemWrite   , //memory write
+    output reg        ExMem_MemToReg   , //register file write data source selection
+    output reg [4:0]  ExMem_RegRd      , //register file address
+    output reg        ExMem_RegWrite   , //register file write enable
+    //from stage after EXE stage for forwading unit
+    input      [4:0]  MemWb_RegRd      , //register file address in MEM/WB
+    input             MemWb_RegWrite   , //register file write enable in MEM/WB
+    input      [31:0] Wb_RegWData        //register file write data in WB stage
     );
+    //forwarding unit for ALU port A
     wire [1:0] ForwardA;
     wire [1:0] ForwardB;
     reg [31:0] AluA;
@@ -38,19 +42,20 @@ module exe(
         endcase
     end
 
+    //forwarding unit for ALU port B
     always @(*)begin
-        if(IdEx_AluSrc) begin
+        if(IdEx_AluSrc) begin //from register file or forwarding from later stage
             case(ForwardB)
             2'b01:AluB = Wb_RegWData;
             2'b10:AluB = ExMem_AluB_Pc4; //forward from ExMem register
             default:AluB = IdEx_RegDataB;
             endcase
-        end else begin
+        end else begin //from immediate
             AluB = IdEx_Imm;
         end
     end
 
-
+    //result of ALU
     wire [31:0] iAluResult;
     alu alu(
     /*i*/ .aluop     (IdEx_AluOp),
@@ -59,7 +64,7 @@ module exe(
     /*o*/ .alu_result(iAluResult)
     );
     
-
+    //forwarding enable detection
     forward_unit forward_unit(
     /*i*/ .ExMem_RegWrite   (ExMem_RegWrite  ),
     /*i*/ .ExMem_RegRd      (ExMem_RegRd     ),
@@ -74,6 +79,7 @@ module exe(
     wire [31:0] iPcAdd4 = IdEx_Pc + 4;
     wire [31:0] iAluB_Pc4 = IdEx_AluB_Pc4_Sel ? AluB : iPcAdd4;
 
+    //EX/MEM pipleline register
     always @(posedge clk or negedge rstb)
         if (!rstb)begin
             ExMem_AluResult <= 0;
